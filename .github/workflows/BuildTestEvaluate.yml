@@ -1,0 +1,36 @@
+name: Build, Test, and Evaluate Model
+
+on:
+  push:
+    branches: [ "Dev" ]
+  pull_request:
+    branches: [ "Prod" ]
+
+jobs:
+  build-and-eval:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name:  Checkout code
+      uses: actions/checkout@v3
+
+    - name:  Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+
+    - name:  Build Docker image
+      run: |
+        docker build -t sea-level-predictor .
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: 3.11
+
+    - name: Install dependencies
+      run: |
+        pip install pandas numpy scikit-learn
+
+    - name: Evaluate model performance
+      run: |
+        python evaluate_model.py
+
