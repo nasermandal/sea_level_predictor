@@ -3,35 +3,43 @@ from sklearn.linear_model import LinearRegression
 from sklearn.model_selection import train_test_split
 import pickle
 import os
+from io import StringIO
 
+# Path to the dataset
 csv_file = 'SeaLevelsSince1880.csv'
 
-# (tab-separated file)
-df = pd.read_csv(csv_file, sep='\t')
+# Ensure the file exists
+if not os.path.isfile(csv_file):
+    raise FileNotFoundError(f"CSV file not found: {csv_file}")
 
-# i'm dropping columns, since not needed
-for col in ['adjlev_noaa', 'rownames']:
-    if col in df.columns:
-        df = df.drop(col, axis=1)
+# Read file and normalize line endings (handles \r\n vs \n)
+with open(csv_file, 'r', encoding='utf-8') as f:
+    content = f.read().replace('\r\n', '\n')
 
-#df['adjlev'] = pd.to_numeric(df['adjlev'], errors='coerce')
-df = df.dropna(subset=['adjlev'])
+# Load into DataFrame as tab-separated
+df = pd.read_csv(StringIO(content), sep='\t')
 
-# definition of the independent X  and depedent variable y 
-X = df[['year']]
+# Drop optional columns if they exist
+df.drop(columns=[col for col in ['adjlev_noaa', 'rownames'] if col in df.columns], inplace=True)
+
+# Ensure 'adjlev' is numeric and drop NaNs
+df['adjlev'] = pd.to_numeric(df['adjlev'], errors='coerce')
+df.dropna(subset=['adjlev'], inplace=True)
+
+# Prepare feature and label
+X = df[['year']].astype(float)
 y = df['adjlev']
 
-# Lets split the data into training and test sets
-X_train, X_test, y_train, y_test = train_test_split(
-    X, y, test_size=0.25, random_state=42
-)
+# Split the data
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25, random_state=42)
 
-# here I'm fitting the  linear regression model
+# Train the model
 model = LinearRegression()
 model.fit(X_train, y_train)
 
-# here, I'm saving the trained model model.pkl
+# Save the model
 with open("model.pkl", "wb") as f:
     pickle.dump(model, f)
 
 print("✅ Model trained and saved to model.pkl.")
+
