@@ -37,7 +37,7 @@ jobs:
   job2:
     name:  evaluating model by running evaluate_model.py
     runs-on: ubuntu-latest
-    needs: job1-train-model
+    needs: job1
 
     steps:
     - name: Checkout code
@@ -63,7 +63,7 @@ jobs:
   job3:
     name: Docker build for Image
     runs-on: ubuntu-latest
-    needs: job2-evaluate-model
+    needs: job2
 
     steps:
     - name: Checkout code
