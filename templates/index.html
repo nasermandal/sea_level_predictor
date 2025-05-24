@@ -1,31 +1,11 @@
-
-@app.route('/')
-def home():
-    return render_template('index.html')
-
-@app.route('/predict', methods=['POST'])
-def predict():
-    try:
-        year = int(request.form['year'])
-        prediction = model.predict(np.array([[year]]))
-        output = round(prediction[0], 2)
-        return render_template('index.html', prediction_text=f"Predicted sea level in {year}: {output} m")
-    except Exception as e:
-        return render_template('index.html', prediction_text=f"Error: {str(e)}")
-
-if __name__ == "__main__":
-    app.run(debug=True,host='0.0.0.0', port=5000)
-
-[naser_mandal@l00188335-dockernode-pg sea-level-predictor]$ ls
-Dockerfile  flaskapp.py  index.html  model1.py  README.md  requirements.txt  SeaLevelsSince1880.csv  templates
-[naser_mandal@l00188335-dockernode-pg sea-level-predictor]$ cat index.html
 <!DOCTYPE html>
 <html>
+
 <head>
-    <title>Sea Level Predictor</title>
+    <title>Sea_Level_Predictor</title>
 </head>
 <body>
-    <h2>Sea Level Prediction</h2>
+    <h2>Welcome to Sea Level Predictior</h2>
     <form method="POST" action="/predict">
         <label for="year">Enter Year:</label>
         <input type="number" name="year" required>
