@@ -85,5 +85,3 @@ jobs:
       run: |
         docker build -t nasermandal/sea_level_predictor:latest .
         docker push nasermandal/sea_level_predictor:latest
-
-  
