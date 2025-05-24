@@ -1,0 +1,34 @@
+name: Run Docker Image
+
+on:
+  workflow_dispatch:  # Manual trigger from GitHub UI
+
+jobs:
+  run-docker:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: 🧾 Checkout code
+      uses: actions/checkout@v3
+
+    - name: 🐳 Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+
+    - name: 🔧 Build Docker image
+      run: |
+        docker build -t sea-level-predictor .
+
+    - name: 🚀 Run container
+      run: |
+        docker run -d -p 5000:5000 --name sea-level-app sea-level-predictor
+        sleep 10  # Give the server time to start
+
+    - name: 🌐 Test Flask endpoint
+      run: |
+        curl --fail http://localhost:5000 || (echo "❌ Flask app did not respond!" && exit 1)
+
+    - name: ✅ Clean up
+      if: always()
+      run: |
+        docker stop sea-level-app
+        docker rm sea-level-app
