@@ -22,7 +22,7 @@ jobs:
         python-version: 3.11
 
     - name: installing dependencies
-      run:pip install pandas numpy scikit-learn
+      run: pip install pandas numpy scikit-learn
 
     - name: runnung the model.py and creating model.pkl
       run: python model.py
