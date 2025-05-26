@@ -29,4 +29,4 @@ jobs:
 
     - name: Run live container
       run: |
-        docker run -d --restart unless-stopped -p 80:5000 --name sea-level-app nasermandal/sea-level-predictor:latest
+        docker run -d --restart unless-stopped -p 80:5000 --name sea-level-app nasermandal/sea_level_predictor:latest
