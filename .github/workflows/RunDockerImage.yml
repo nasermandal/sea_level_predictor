@@ -28,7 +28,7 @@ jobs:
       run: |
         curl --fail http://localhost:5000 || (echo "Flask app not responding!" && exit 1)
 
-    - name: stpping docker and removal of the container
+    - name: stopping docker and removal of the container
       if: always()
       run: |
         docker stop sea-level-app
