@@ -20,7 +20,7 @@ jobs:
 
     - name: Pull latest image from Docker Hub
       run: |
-        docker pull nasermandal/sea-level-predictor:latest
+        docker pull nasermandal/sea_level_predictor:latest
 
     - name: Stop and remove old container (if any)
       run: |
