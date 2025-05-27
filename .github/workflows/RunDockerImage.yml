@@ -1,8 +1,11 @@
 name: Run Docker Image
 
 on:
-  workflow_dispatch:  # manually triggering from the github
-
+  #workflow_dispatch:  # manually triggering from the github
+  workflow_run:
+    workflows: ["BuildTestEvaluate"]  # to start after first workflow OK
+    types:
+      - completed
 jobs:
   run-docker:
     runs-on: ubuntu-latest
