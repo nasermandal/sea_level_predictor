@@ -17,3 +17,16 @@ spec:
         image: monitor-app:latest
         args: ["python", "monitor.py"]
         imagePullPolicy: Never
+
+apiVersion: v1 # exposing monitoring
+kind: Service
+metadata:
+  name: monitor-service
+spec:
+  type: NodePort
+  selector:
+    app: monitor
+  ports:
+    - port: 5001        #  exposed by the service
+      targetPort: 5000  # exposed inside the container
+      nodePort: 30002   
