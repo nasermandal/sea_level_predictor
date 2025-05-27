@@ -3,7 +3,7 @@ name: Run Docker Image
 on:
   #workflow_dispatch:  # manually triggering from the github
   workflow_run:
-    workflows: ["BuildTestEvaluate"]  # to start after first workflow OK
+    workflows: ["BuildTestEvaluate.yml"]  # to start after first workflow
     types:
       - completed
 jobs:
