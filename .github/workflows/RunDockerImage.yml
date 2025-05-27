@@ -1,8 +1,11 @@
 name: Run Docker Image
 
 on:
-  workflow_dispatch:  # manually triggering from the github
-
+  #workflow_dispatch:  # manually triggering from the github
+  workflow_run:
+    workflows: ["BuildTestEvaluateModel"]  # to start after first workflow
+    types:
+      - completed
 jobs:
   run-docker:
     runs-on: ubuntu-latest
@@ -24,7 +27,7 @@ jobs:
         docker run -d -p 5000:5000 --name sea-level-app sea-level-predictor
         sleep 10  # giving time to the server to start
 
-    - name: Test Flask endpoint
+    - name: Test Flask responce
       run: |
         curl --fail http://localhost:5000 || (echo "Flask app not responding!" && exit 1)
 
