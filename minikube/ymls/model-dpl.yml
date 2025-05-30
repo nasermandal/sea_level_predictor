@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: model-deployment
 spec:
-  replicas: 1
+  replicas: 3
   selector:
     matchLabels:
       app: model
@@ -31,5 +31,5 @@ spec:
     app: model
   ports:
     - protocol: TCP
-      port: 5000        # service port exposed externally
-      targetPort: 5000  # Flask app port inside container
+      port: 5000        # service port exposed external comms
+      targetPort: 5000  # Flask app port inside container comms
