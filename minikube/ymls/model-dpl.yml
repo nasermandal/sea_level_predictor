@@ -17,7 +17,7 @@ spec:
         image: nasermandal/sea_level_predictor:latest
         ports:
         - containerPort: 5000
-        imagePullPolicy: IfNotPresent
+        imagePullPolicy: Always
 
 ---
 
