@@ -14,10 +14,10 @@ spec:
     spec:
       containers:
       - name: model
-        image: model-app:latest
+        image: nasermandal/sea_level_predictor:latest
         ports:
         - containerPort: 5000
-        imagePullPolicy: Never
+        imagePullPolicy: IfNotPresent
 
 ---
 
