@@ -1,7 +1,10 @@
 name: Build and Push Monitor Image
 
 on:
-  workflow_dispatch:
+  push:
+    branches: [ "Dev" ]
+  pull_request:
+    branches: [ "Prod" ]
 
 jobs:
   build-and-push:
