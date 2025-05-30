@@ -1,14 +1,18 @@
-import requests
 import time
+import requests
+from datetime import datetime
 
-URL = "http://model-service:5000"
+url = "http://model-service:5000"
 
 while True:
     try:
-        start = time.time()
-        r = requests.get(URL)
-        latency = round((time.time() - start) * 1000, 2)
-        print(f"[OK] Latency: {latency} ms | Status: {r.status_code}")
+        start_time = time.time()
+        response = requests.get(url)
+        latency = time.time() - start_time
+        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        print(f"[{timestamp}] ✅ Status: {response.status_code}, Latency: {latency:.3f}s")
     except Exception as e:
-        print(f"[ERR] {e}")
-    time.sleep(10)
+        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        print(f"[{timestamp}] ❌ Request failed: {e}")
+    time.sleep(10)  # Adjust interval as needed
+
