@@ -1,0 +1,38 @@
+name: Deploy with Minikube Tunnel
+
+on:
+  workflow_dispatch:
+
+jobs:
+  deploy-with-tunnel:
+    runs-on: self-hosted
+
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v3
+
+    - name: Set up Kubectl
+      uses: azure/setup-kubectl@v3
+      with:
+        version: 'latest'
+
+    - name: Start Minikube Tunnel (running in the background)
+      run: |
+        nohup sudo minikube tunnel &
+        sleep 10
+
+    - name: Apply Model Deployment
+      run: |
+        kubectl apply -f minikube/ymls/model-dpl.yml
+
+    - name: Apply Monitor Deployment
+      run: |
+        kubectl apply -f minikube/ymls/monitor-dpl.yml
+
+    - name: Get Services Info
+      run: |
+        kubectl get svc
+
+    - name: ✅ Confirm Pods Running
+      run: |
+        kubectl get pods
