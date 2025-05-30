@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: model-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: model
+  template:
+    metadata:
+      labels:
+        app: model
+    spec:
+      containers:
+      - name: model
+        image: nasermandal/sea_level_predictor:latest
+        ports:
+        - containerPort: 5000
+        imagePullPolicy: Always
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: model-service
+spec:
+  type: LoadBalancer
+  selector:
+    app: model
+  ports:
+    - protocol: TCP
+      port: 5000        # service port exposed external comms
+      targetPort: 5000  # Flask app port inside container comms
