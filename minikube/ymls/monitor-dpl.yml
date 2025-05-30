@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: monitor-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: monitor
+  template:
+    metadata:
+      labels:
+        app: monitor
+    spec:
+      containers:
+      - name: monitor
+        image: monitor-app:latest
+        args: ["python", "monitor.py"]
+        ports:
+        - containerPort: 5000
+        imagePullPolicy: Never
+
+---
+
+apiVersion: v1 # exposing the monitoring
+kind: Service
+metadata:
+  name: monitor-service
+spec:
+  type: LoadBalancer
+  selector:
+    app: monitor
+  ports:
+    - protocol: TCP
+      port: 5001        # exposed external-facing port
+      targetPort: 5000  # port the container listens on
