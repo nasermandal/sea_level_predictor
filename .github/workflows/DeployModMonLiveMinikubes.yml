@@ -1,7 +1,8 @@
 name: Deploy with Minikube Tunnel
 
 on:
-  workflow_dispatch:
+  push:
+    branches: [ "Prod" ]  #workflow_dispatch:
 
 jobs:
   deploy-with-tunnel:
